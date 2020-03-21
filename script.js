@@ -89,9 +89,9 @@ function makeCard(player,name,color){
   var header =   $('<div />').addClass("card-header").css('background', colorPallets[color][0]).text(name);
   var body = $('<div />').addClass("card-body").css('background', colorPallets[color][1]).append(check);
   var button = document.createElement("BUTTON");
-  $(button).addClass("btn text-white").css('background', colorPallets[color][0]).text("Add").css('width','30%');
+  $(button).addClass("btn text-white tempB").css('background', colorPallets[color][0]).text("Add").css('width','35%');
   var select = document.createElement("SELECT");
-  $(select).addClass("form-control slim").css('width','70%').css('float','right');
+  $(select).addClass("form-control slim").css('width','65%').css('float','right');
   var footer = $('<div />').addClass("card-footer slim").append(button).append(select);
   var card = $('<div />').addClass("card playercard text-white mb-3").append(header).append(body).append(footer);
   $("#card-div").append(card)
