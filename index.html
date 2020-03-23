@@ -11,6 +11,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   <!--custom scripts-->
   <script src="tracker.js"></script>
+  <script src="cookie-functions.js"></script>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <!--Custom css-->
@@ -34,8 +35,8 @@
         </button>
         <div class="drop-content title card">
           <button class="btn" onClick="getName()">Add Player</button>
-          <button class="btn">Temp Button</button>
-          <button class="btn">Temp Button</button>
+          <button class="btn" onClick="getNewStatus()">Add Status</button>
+          <button class="btn" onClick="resetStats()">Reset Status Options</button>
         </div>
       </div>
     </div>
@@ -83,6 +84,51 @@
           </div>
           <div class="modal-footer">
             <button id="create-player-button" type="button" class="btn dialog-btn" data-toggle="modal" data-target="#create-player" onClick="addCard()">Create</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Add status modal-->
+    <button id="add-status-toggle" type="button" class="hidden" data-toggle="modal" data-target="#add-status"></button>
+    <div class="modal" id="add-status" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header title">
+            Add status
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Name</span>
+              </div>
+              <input id="add-status-name" type="text" class="form-control">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="add-status-button" type="button" class="btn dialog-btn" data-toggle="modal" data-target="#add-status" onClick="addStatus()">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--message modal-->
+    <button id="message-toggle" type="button" class="hidden" data-toggle="modal" data-target="#message"></button>
+    <div class="modal" id="message" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header title">
+            <span id = "message-title"></span>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <span id = "message-content"></span>
+          </div>
+          <div class="modal-footer">
+            <button id="message-button" type="button" class="btn dialog-btn" data-toggle="modal" data-target="#message">Ok</button>
           </div>
         </div>
       </div>

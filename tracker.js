@@ -2,15 +2,35 @@
 var cardWrapper;
 
 const customString = "Custom";
-var statusEffects = [customString,"Blinded","Charmed","Deafened","Fatigued","Frightened","Grappled","Paralyzed","Poisoned","Prone","Restrained","Stunned","Unconscious"];
+const defStatusEffects = [customString,"Blinded","Charmed","Deafened","Fatigued","Frightened","Grappled","Paralyzed","Poisoned","Prone","Restrained","Stunned","Unconscious"];
+var statusEffects = defStatusEffects;
 
 //Function called when all dom elements loaded
 function load(){
   cardWrapper = $("#card-wrap");
-  //addPlayerCard("Billy");
-  //addPlayerCard("Anna");
-  //addPlayerCard("Trevor");
-  //addPlayerCard("Mary");
+  if(document.cookie == ""){
+    message("Cookies", "This app uses cookies to remember where you left off");
+    document.cookie = "accepted=true";
+  }else{
+    loadCookieState();
+  }
+}
+
+//Load a state from the cokie substring
+function loadCookieState(){
+  //status array
+  var json_str = getCookie('status-effects');
+  if(json_str != ""){
+    statusEffects = JSON.parse(json_str);
+    updateStatusSelect()
+    console.log(statusEffects);
+  }
+}
+
+//reset possible statusSelect
+function resetStats(){
+  statusEffects = defStatusEffects;
+  updateStatusSelect();
 }
 
 //Add player card with specified atributes to page
@@ -38,7 +58,7 @@ function makeCard(name){
   card.append(header).append(body).append(footer);
   //Add Self referential button functions
   closeButton.click(function(){removeCard(card);});
-  addButton.click(function(){body.append(makeStatusElement(statusSelect.val()));});
+  addButton.click(function(){addStatusElement(body,statusSelect.val());});
   return card;
 }
 
@@ -48,6 +68,14 @@ function makeClose(){
   var check = $("<span>").attr("aria-hidden","true").html("&times;");
   closeButton.append(check);
   return closeButton;
+}
+
+function addStatusElement(body,name){
+  if(name == customString){
+    getNewStatus();
+  }else{
+    body.append(makeStatusElement(name));
+  }
 }
 
 //Generate a check box element
@@ -76,6 +104,10 @@ function updateStatusSelect(){
     $(selectBox).empty();
     fillStatusSelect($(selectBox));
   }
+  // update Cookies
+  var json_str = JSON.stringify(statusEffects);
+  console.log(json_str);
+  createCookie('status-effects', json_str);
 }
 
 //fill the given status select with the correct options
@@ -105,5 +137,44 @@ function getName(){
 //Get the chosen name and ann the new player
 function addCard(){
   var name = $("#create-player-name").val();
+  name = capitalise(name);
   addPlayerCard(name);
+}
+
+//get name of new status
+function getNewStatus(){
+  $("#add-status-name").val("");
+  $("#add-status-toggle").click();
+}
+
+//get chosen name and addnew status if unique
+function addStatus(){
+  var name = $("#add-status-name").val();
+  name = capitalise(name);
+  var unique = true;
+  for (status of statusEffects){
+    unique &= !(name.toLowerCase() == status.toLowerCase());
+  }
+  if(unique){
+    statusEffects.push(name);
+    updateStatusSelect()
+    message("Status Added",name+" added succesfuly");
+  }else{
+    message("Cannot Add Status","Can't add a status that already exists");
+  }
+}
+
+//display a message Modal
+function message(title,text){
+  $("#message-title").text(title);
+  $("#message-content").text(text);
+  $("#message-toggle").click();
+}
+
+//Capitalise word
+function capitalise(name){
+  var first = name.substring(0,1).toUpperCase();
+  var rest = name.substring(1).toLowerCase();
+  name = first + rest;
+  return name;
 }
